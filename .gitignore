@@ -1,0 +1,10 @@
+*.pyc
+*/plots
+*/data
+*/.ipynb_checkpoints
+*/.DS_Store
+*/.vscode
+*/.pytest_cache
+*.pdf
+*.txt
+*.dat
