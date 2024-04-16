@@ -1,6 +1,5 @@
 from turtle import title
 import matplotlib
-from networkx import stochastic_block_model
 import numpy as np
 import matplotlib.pyplot as plt
 import modules.cdf as cdf
