@@ -11,7 +11,7 @@ dt = 1e-3
 n_trials = 2000
 n_iters = 30000
 
-initial_angle = np.radians(30)
+initial_angle = np.radians(45)
 target_angle = np.radians(90)
 
 print("D = {:.4f}".format(D))
