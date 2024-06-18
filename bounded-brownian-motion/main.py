@@ -27,7 +27,7 @@ Dz = 1.0
 D = np.array([Dx, Dy, Dz])
 
 x0 = 0
-y0 = 0
+y0 = 20
 z0 = 0
 
 dt = 0.02
@@ -43,67 +43,80 @@ bin_x = np.arange(xmin, xmax + 1, 1.0)
 bin_y = np.arange(xmin, xmax + 1, 1.0)
 bin_z = np.arange(xmin, xmax + 1, 1.0)
 
-for trial in range(num_trials):
+with open('pos_x.txt', 'w') as f_x, open('pos_y.txt', 'w') as f_y, open('pos_z.txt', 'w') as f_z:
+    f_x.write('#Trial\tx\n')
+    f_y.write('#Trial\ty\n')
+    f_z.write('#Trial\tz\n')
 
-    this_walker.reset()
-    for ti in range(num_iters):
-        this_walker.step()
+with open('pos_x.txt', 'a') as f_x, open('pos_y.txt', 'a') as f_y, open('pos_z.txt', 'a') as f_z:
+    for trial in range(num_trials):
 
-    final_x[trial] = this_walker.x
-    final_y[trial] = this_walker.y
-    final_z[trial] = this_walker.z
+        this_walker.reset()
+        for ti in range(num_iters):
+            this_walker.step()
 
-    if trial % 100 == 0 and trial > 0:
+        final_x[trial] = this_walker.x
+        final_y[trial] = this_walker.y
+        final_z[trial] = this_walker.z
 
-        print('Trial:', trial)
+        f_x.write("{}\t{}\n".format(trial, this_walker.x))
+        f_y.write("{}\t{}\n".format(trial, this_walker.y))
+        f_z.write("{}\t{}\n".format(trial, this_walker.z))
 
-        fig, ax = plt.subplots(1, 3, figsize=(15, 5), tight_layout=True)
+        if trial % 100 == 0 and trial > 0:
 
-        ax[0].hist(final_x[:trial], bins=bin_x,
-                   density=True, color='b', rwidth=0.8)
-        ax[0].set_xlabel('x')
-        ax[0].set_ylabel('Density')
-        ax[0].set_xlim(xmin, xmax)
+            print('Trial:', trial)
 
-        ax[1].hist(final_y[:trial], bins=bin_y,
-                   density=True, color='b', rwidth=0.8)
-        ax[1].set_xlabel('y')
-        ax[1].set_ylabel('Density')
-        ax[1].set_xlim(ymin, ymax)
+            fig, ax = plt.subplots(1, 3, figsize=(15, 5), tight_layout=True)
 
-        ax[2].hist(final_z[:trial], bins=bin_z,
-                   density=True, color='b', rwidth=0.8)
-        ax[2].set_xlabel('z')
-        ax[2].set_ylabel('Density')
-        ax[2].set_xlim(zmin, zmax)
+            ax[0].hist(final_x[:trial], bins=bin_x,
+                       density=True, color='b', rwidth=1.0)
+            ax[0].set_xlabel('x')
+            ax[0].set_ylabel('Density')
+            ax[0].set_xlim(xmin, xmax)
 
-        plt.savefig('histograms.png')
+            ax[1].hist(final_y[:trial], bins=bin_y,
+                       density=True, color='b', rwidth=1.0)
+            ax[1].set_xlabel('y')
+            ax[1].set_ylabel('Density')
+            ax[1].set_xlim(ymin, ymax)
 
-        plt.close()
+            ax[2].hist(final_z[:trial], bins=bin_z,
+                       density=True, color='b', rwidth=1.0)
+            ax[2].set_xlabel('z')
+            ax[2].set_ylabel('Density')
+            ax[2].set_xlim(zmin, zmax)
 
-        fig, ax = plt.subplots(1, 3, figsize=(15, 5), tight_layout=True)
+            plt.savefig('histograms.png')
 
-        ax[0].scatter(final_x[:trial], final_y[:trial], s=5, c='b', alpha=0.2)
-        ax[0].set_xlabel('x')
-        ax[0].set_ylabel('y')
-        ax[0].set_xlim(xmin, xmax)
-        ax[0].set_ylim(ymin, ymax)
-        ax[0].set_title('x - y projection')
+            plt.close()
 
-        ax[1].scatter(final_x[:trial], final_z[:trial], s=5, c='b', alpha=0.2)
-        ax[1].set_xlabel('x')
-        ax[1].set_ylabel('z')
-        ax[1].set_xlim(xmin, xmax)
-        ax[1].set_ylim(zmin, zmax)
-        ax[1].set_title('x - z projection')
+            fig, ax = plt.subplots(1, 3, figsize=(15, 5), tight_layout=True)
 
-        ax[2].scatter(final_y[:trial], final_z[:trial], s=5, c='b', alpha=0.2)
-        ax[2].set_xlabel('y')
-        ax[2].set_ylabel('z')
-        ax[2].set_xlim(ymin, ymax)
-        ax[2].set_ylim(zmin, zmax)
-        ax[2].set_title('y - z projection')
+            ax[0].scatter(final_x[:trial], final_y[:trial],
+                          s=5, c='b', alpha=0.2)
+            ax[0].set_xlabel('x')
+            ax[0].set_ylabel('y')
+            ax[0].set_xlim(xmin, xmax)
+            ax[0].set_ylim(ymin, ymax)
+            ax[0].set_title('x - y projection')
 
-        plt.savefig('finalpos.png')
+            ax[1].scatter(final_x[:trial], final_z[:trial],
+                          s=5, c='b', alpha=0.2)
+            ax[1].set_xlabel('x')
+            ax[1].set_ylabel('z')
+            ax[1].set_xlim(xmin, xmax)
+            ax[1].set_ylim(zmin, zmax)
+            ax[1].set_title('x - z projection')
 
-        plt.close()
+            ax[2].scatter(final_y[:trial], final_z[:trial],
+                          s=5, c='b', alpha=0.2)
+            ax[2].set_xlabel('y')
+            ax[2].set_ylabel('z')
+            ax[2].set_xlim(ymin, ymax)
+            ax[2].set_ylim(zmin, zmax)
+            ax[2].set_title('y - z projection')
+
+            plt.savefig('finalpos.png')
+
+            plt.close()
