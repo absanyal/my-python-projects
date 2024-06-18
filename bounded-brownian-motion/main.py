@@ -4,6 +4,14 @@ import matplotlib.pyplot as plt
 from modules.walker import walker
 from modules.wall import wall
 
+import matplotlib as mpl
+
+mpl.rcParams['axes.labelsize'] = 20
+mpl.rcParams['xtick.labelsize'] = 20
+mpl.rcParams['ytick.labelsize'] = 20
+mpl.rcParams['legend.fontsize'] = 16
+mpl.rcParams['axes.titlesize'] = 20
+
 # Define the number of trials and iterations
 num_trials = 50000
 num_iters = 1000
