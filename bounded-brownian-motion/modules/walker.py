@@ -60,29 +60,48 @@ class walker:
     def dt(self):
         return self.__dt
     
-    def check_collision(self):
-        if self.__x < self.__xmin:
-            self.__x = self.__xmin
-        if self.__x > self.__xmax:
-            self.__x = self.__xmax
-        if self.__y < self.__ymin:
-            self.__y = self.__ymin
-        if self.__y > self.__ymax:
-            self.__y = self.__ymax
-        if self.__z < self.__zmin:
-            self.__z = self.__zmin
-        if self.__z > self.__zmax:
-            self.__z = self.__zmax
+    # def check_collision(self):
+        
     
     def step(self):
         dx = np.sqrt(2 * self.Dx * self.dt) * np.random.normal()
         dy = np.sqrt(2 * self.Dy * self.dt) * np.random.normal()
         dz = np.sqrt(2 * self.Dz * self.dt) * np.random.normal()
         
-        self.__x += dx
-        self.__y += dy
-        self.__z += dz
+        potential_x = self.__x + dx
+        potential_y = self.__y + dy
+        potential_z = self.__z + dz
+        
+        x_inside = 0
+        y_inside = 0
+        z_inside = 0
+        
+        full_inside = x_inside * y_inside * z_inside
         
         if self.__wall is not None:
-            self.check_collision()
+            while not full_inside:
+                if potential_x < self.__xmin or potential_x > self.__xmax:
+                    dx = np.sqrt(2 * self.Dx * self.dt) * np.random.normal()
+                    potential_x = self.__x + dx
+                else:
+                    x_inside = 1
+                
+                if potential_y < self.__ymin or potential_y > self.__ymax:
+                    dy = np.sqrt(2 * self.Dy * self.dt) * np.random.normal()
+                    potential_y = self.__y + dy
+                else:
+                    y_inside = 1
+                
+                if potential_z < self.__zmin or potential_z > self.__zmax:
+                    dz = np.sqrt(2 * self.Dz * self.dt) * np.random.normal()
+                    potential_z = self.__z + dz
+                else:
+                    z_inside = 1
+                
+                full_inside = x_inside * y_inside * z_inside
+        
+        self.__x = potential_x
+        self.__y = potential_y
+        self.__z = potential_z
+            
         
