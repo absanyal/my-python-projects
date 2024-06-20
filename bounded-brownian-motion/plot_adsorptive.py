@@ -28,7 +28,21 @@ w_list = np.linspace(min_x - padding, max_x + padding, 1000)
 x_wall = max(final_x_a)
 
 
-density_r = mdos(w_list, final_x_a, gamma)
+density_r_unfiltered = mdos(w_list, final_x_a, gamma)
+
+density_r = np.zeros_like(density_r_unfiltered)
+
+for wi, w in enumerate(w_list):
+    if w < x_wall:
+        density_r[wi] = density_r_unfiltered[wi]
+    else:
+        density_r[wi] = 0
+
+density_r = np.array(density_r)
+
+area_r = np.trapz(density_r, w_list)
+density_r /= area_r
+
 density_i1 = mdos(w_list, final_x_i1, gamma)
 density_i2 = mdos(w_list, final_x_i2, gamma)
 
