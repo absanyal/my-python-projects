@@ -11,7 +11,7 @@ mpl.rcParams['ytick.labelsize'] = 20
 mpl.rcParams['legend.fontsize'] = 16
 
 # Define the number of trials and iterations
-num_trials = 35000
+num_trials = 50000
 num_iters = 1000
 
 # Define the wall
@@ -76,57 +76,63 @@ final_x_r = np.zeros(num_trials)
 final_x_i1 = np.zeros(num_trials)
 final_x_i2 = np.zeros(num_trials)
 
-for trial in range(num_trials):
+with open('reflective_walker.txt', 'w') as file:
+    file.write('#Trial\tReflective\tImage1\tImage2\n')
 
-    r_walker.reset()
-    i_walker.reset()
-    i_walker2.reset()
+with open('reflective_walker.txt', 'a') as file:
+    for trial in range(num_trials):
 
-    for ti in range(num_iters):
+        r_walker.reset()
+        i_walker.reset()
+        i_walker2.reset()
 
-        r_walker.step()
-        i_walker.step()
-        i_walker2.step()
+        for ti in range(num_iters):
 
-    final_x_r[trial] = r_walker.x
+            r_walker.step()
+            i_walker.step()
+            i_walker2.step()
 
-    final_x_i1[trial] = i_walker.x
-    final_x_i2[trial] = i_walker2.x
+        final_x_r[trial] = r_walker.x
 
-    min_x = min(min(final_x_r), min(final_x_i1), min(final_x_i2))
-    max_x = max(max(final_x_r), max(final_x_i1), max(final_x_i2))
+        final_x_i1[trial] = i_walker.x
+        final_x_i2[trial] = i_walker2.x
+        
+        file.write('{}\t{}\t{}\t{}\n'.format(trial, final_x_r[trial], final_x_i1[trial], final_x_i2[trial]))
 
-    bin_x = np.arange(min_x, max_x + 1, 0.5)
+        min_x = min(min(final_x_r), min(final_x_i1), min(final_x_i2))
+        max_x = max(max(final_x_r), max(final_x_i1), max(final_x_i2))
 
-    if trial % 100 == 0 and trial > 0:
+        bin_x = np.arange(min_x, max_x + 1, 0.5)
 
-        print('Trial:', trial)
+        if trial % 100 == 0 and trial > 0:
 
-        plt.figure(tight_layout=True, figsize=(9, 6))
+            print('Trial:', trial)
 
-        list_i1 = list(final_x_i1[:trial])
-        list_i2 = list(final_x_i2[:trial])
-        list_i = list_i1 + list_i2
-        list_i = np.array(list_i)
+            # plt.figure(tight_layout=True, figsize=(9, 6))
 
-        plt.hist(final_x_r[:trial], bins=bin_x,
-                 alpha=0.7, label='Reflective', color='b')
-        plt.hist(final_x_i1[:trial], bins=bin_x, alpha=0.7,
-                 label='Image 1', histtype='step', linestyle='dashed', color='k')
-        plt.hist(final_x_i2[:trial], bins=bin_x, alpha=0.7,
-                 label='Image 2', histtype='step', linestyle='dashed', color='k')
-        plt.hist(list_i, bins=bin_x, alpha=1.0,
-                 label='Total image', histtype='step', color='r')
+            # list_i1 = list(final_x_i1[:trial])
+            # list_i2 = list(final_x_i2[:trial])
+            # list_i = list_i1 + list_i2
+            # list_i = np.array(list_i)
 
-        plt.xlabel('x')
-        plt.ylabel('Count')
-        plt.xlim(min_x, max_x)
+            # plt.hist(final_x_r[:trial], bins=bin_x,
+            #         alpha=0.7, label='Reflective', color='b')
+            # plt.hist(final_x_i1[:trial], bins=bin_x, alpha=0.7,
+            #         label='Image 1', histtype='step', linestyle='dashed', color='k')
+            # plt.hist(final_x_i2[:trial], bins=bin_x, alpha=0.7,
+            #         label='Image 2', histtype='step', linestyle='dashed', color='k')
+            # plt.hist(list_i, bins=bin_x, alpha=1.0,
+            #         label='Total image', histtype='step', color='r')
 
-        plt.axvline(x=xmax, color='k', linestyle='dashed',
-                    label='Wall', linewidth=2.0)
+            # plt.xlabel('x')
+            # plt.ylabel('Count')
+            # plt.xlim(min_x, max_x)
 
-        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+            # plt.axvline(x=xmax, color='k', linestyle='dashed',
+            #             label='Wall', linewidth=2.0)
 
-        plt.savefig('reflective_vs_image.png')
+            # plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 
-        plt.close()
+            # plt.savefig('reflective_vs_image.png')
+
+            # plt.close()
