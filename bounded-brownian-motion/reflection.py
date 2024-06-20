@@ -92,38 +92,41 @@ for trial in range(num_trials):
 
     final_x_i1[trial] = i_walker.x
     final_x_i2[trial] = i_walker2.x
-    
-    min_x = min( min(final_x_r), min(final_x_i1), min(final_x_i2) )
-    max_x = max( max(final_x_r), max(final_x_i1), max(final_x_i2) )
-    
-    bin_x = np.arange(min_x, max_x + 1, 1.0)
+
+    min_x = min(min(final_x_r), min(final_x_i1), min(final_x_i2))
+    max_x = max(max(final_x_r), max(final_x_i1), max(final_x_i2))
+
+    bin_x = np.arange(min_x, max_x + 1, 0.5)
 
     if trial % 100 == 0 and trial > 0:
 
         print('Trial:', trial)
-        
+
         plt.figure(tight_layout=True, figsize=(9, 6))
-        
+
         list_i1 = list(final_x_i1[:trial])
         list_i2 = list(final_x_i2[:trial])
         list_i = list_i1 + list_i2
         list_i = np.array(list_i)
-        
-        plt.hist(final_x_r[:trial], bins=bin_x, alpha=0.7, label='Reflective', color='b')
-        plt.hist(final_x_i1[:trial], bins=bin_x, alpha=0.7, label='Image 1', histtype='step', linestyle='dashed', color='k')
-        plt.hist(final_x_i2[:trial], bins=bin_x, alpha=0.7, label='Image 2', histtype='step', linestyle='dashed', color='k')
-        plt.hist(list_i, bins=bin_x, alpha=1.0, label='Total image', histtype='step', color='r')
-        
+
+        plt.hist(final_x_r[:trial], bins=bin_x,
+                 alpha=0.7, label='Reflective', color='b')
+        plt.hist(final_x_i1[:trial], bins=bin_x, alpha=0.7,
+                 label='Image 1', histtype='step', linestyle='dashed', color='k')
+        plt.hist(final_x_i2[:trial], bins=bin_x, alpha=0.7,
+                 label='Image 2', histtype='step', linestyle='dashed', color='k')
+        plt.hist(list_i, bins=bin_x, alpha=1.0,
+                 label='Total image', histtype='step', color='r')
+
         plt.xlabel('x')
         plt.ylabel('Count')
         plt.xlim(min_x, max_x)
-        
-        plt.axvline(x=xmax, color='k', linestyle='dashed', label='Wall', linewidth=2.0)
-        
+
+        plt.axvline(x=xmax, color='k', linestyle='dashed',
+                    label='Wall', linewidth=2.0)
+
         plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-        
+
         plt.savefig('reflective_vs_image.png')
-        
+
         plt.close()
-        
-    
