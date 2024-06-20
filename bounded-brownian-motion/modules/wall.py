@@ -1,13 +1,14 @@
 import numpy as np
 
 class wall:
-    def __init__(self, xmin, xmax, ymin, ymax, zmin, zmax):
+    def __init__(self, xmin, xmax, ymin, ymax, zmin, zmax, adsorption_p = 0.0):
         self.__xmin = xmin
         self.__xmax = xmax
         self.__ymin = ymin
         self.__ymax = ymax
         self.__zmin = zmin
         self.__zmax = zmax
+        self.__adsorption_p = adsorption_p
     
     @property
     def xmin(self):
@@ -39,3 +40,11 @@ class wall:
     @property
     def zmax(self):
         return self.__zmax
+    
+    @property
+    def zwidth(self):
+        return abs(self.__zmax - self.__zmin)
+    
+    @property
+    def adsorption_p(self):
+        return self.__adsorption_p
