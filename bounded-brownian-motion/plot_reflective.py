@@ -28,11 +28,17 @@ Dx, Dy, Dz, x0, y0, z0, dt, distance_from_wall, num_iters = np.loadtxt(
 t_final = num_iters * dt
 
 
-padding = 0
+padding = 1
 gamma = 0.3
 
 w_list = np.linspace(min_x - padding, max_x + padding, 1000)
 x_wall = max(final_x_r)
+
+x_ticks1 = np.arange(0, max_x + 1, 10)
+x_ticks2 = np.arange(0, min_x + 1, -10)
+
+x_ticks = np.concatenate((x_ticks2, x_ticks1))
+
 
 # Plot walker density
 
@@ -50,14 +56,13 @@ density_r = np.array(density_r)
 area_r = np.trapz(density_r, w_list)
 density_r /= area_r
 
-fig = plt.figure(figsize=(8.2, 6), constrained_layout=True)
-ax = fig.add_subplot(111, box_aspect=1)
+fig = plt.figure(figsize=(5, 5), tight_layout=True)
 
-ax.plot(w_list, density_r, label='Particle',
-        color='b', linewidth=1, alpha=1.0)
+plt.plot(w_list, density_r, label='Simulation',
+         color='b', linewidth=1, alpha=1.0)
 
 if plot_histogram:
-    ax.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5)
+    plt.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5)
 
 # Analytic solution
 
@@ -72,15 +77,20 @@ for wi, w in enumerate(w_list):
 solution_nf = np.trapz(solution, w_list)
 solution /= solution_nf
 
-ax.plot(w_list, solution, label='Exact',
+plt.plot(w_list, solution, label='Theory',
          color='r', linewidth=1, alpha=1.0)
 
-ax.set_xlabel(r'$x$')
-ax.set_ylabel(r'$P(x)$')
-ax.set_xlim(min_x - padding, max_x + padding)
-ax.set_ylim(bottom=0)
+plt.xlabel(r'$x$')
+plt.ylabel(r'$P(x)$')
 
-ax.axvline(x=xmax, color='k', linestyle='dashed',
-           label='Wall', linewidth=2.0)
-ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
+plt.xlim(min_x - padding, max_x + padding)
+plt.ylim(bottom=0)
+
+plt.xticks(x_ticks)
+
+plt.axvline(x=xmax, color='k', linestyle='dashed',
+            label='Wall', linewidth=1.0, alpha=0.5)
+
+# ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
+plt.legend()
 plt.savefig('reflective_dos.png')
