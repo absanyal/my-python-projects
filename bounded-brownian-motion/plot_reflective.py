@@ -63,10 +63,11 @@ fig = plt.figure(figsize=(5, 5), tight_layout=True)
 
 if plot_dos:
     plt.plot(w_list, density_r, label='Simulation',
-         color='b', linewidth=1, alpha=1.0)
+             color='b', linewidth=1, alpha=1.0)
 
 if plot_histogram:
-    plt.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5, label='Simulation')
+    plt.hist(final_x_r, bins=bin_x, density=True, color='b',
+             label='Simulation', rwidth=1.0, edgecolor='b', alpha = 0.5)
 
 # Analytic solution
 
@@ -97,4 +98,4 @@ plt.axvline(x=xmax, color='k', linestyle='dashed',
 
 # ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
 plt.legend(loc='upper left', fancybox=True, framealpha=0.0)
-plt.savefig('dos_reflective.png')
+plt.savefig('dos_reflective.pdf')

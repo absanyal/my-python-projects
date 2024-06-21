@@ -64,7 +64,7 @@ if plot_dos:
          color='b', linewidth=1, alpha=1.0)
 
 if plot_histogram:
-    plt.hist(final_x_a, bins=bin_x, density=True, color='b', alpha=0.5, label='Simulation')
+    plt.hist(final_x_a, bins=bin_x, density=True, color='b', alpha=0.5, label='Simulation', edgecolor='b')
 
 solution_un = adsorptive_soln(w_list - x_wall, distance_from_wall, Dx, t_final)
 solution = np.zeros_like(solution_un)
@@ -93,4 +93,4 @@ plt.axvline(x=xmax, color='k', linestyle='dashed',
 
 # ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
 plt.legend(loc='upper left', fancybox=True, framealpha=0.0)
-plt.savefig('dos_adsorptive.png')
+plt.savefig('dos_adsorptive.pdf')
