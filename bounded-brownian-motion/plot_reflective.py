@@ -10,7 +10,8 @@ mpl.rcParams['xtick.labelsize'] = 20
 mpl.rcParams['ytick.labelsize'] = 20
 mpl.rcParams['legend.fontsize'] = 16
 
-plot_histogram = 0
+plot_histogram = 1
+plot_dos = 0
 
 trials, final_x_r = np.loadtxt(
     'reflective_walker.txt', unpack=True)
@@ -20,7 +21,7 @@ max_x = max(final_x_r)
 
 xmax = max(final_x_r)
 
-bin_x = np.arange(min_x, max_x + 1, 0.5)
+bin_x = np.arange(min_x, max_x + 1, 1.0)
 
 Dx, Dy, Dz, x0, y0, z0, dt, distance_from_wall, num_iters = np.loadtxt(
     'reflective_info.txt', unpack=True)
@@ -28,10 +29,12 @@ Dx, Dy, Dz, x0, y0, z0, dt, distance_from_wall, num_iters = np.loadtxt(
 t_final = num_iters * dt
 
 
-padding = 1
+padding_l = 0
+padding_r = 1
+
 gamma = 0.3
 
-w_list = np.linspace(min_x - padding, max_x + padding, 1000)
+w_list = np.linspace(min_x - padding_l, max_x + padding_r, 1000)
 x_wall = max(final_x_r)
 
 x_ticks1 = np.arange(0, max_x + 1, 10)
@@ -58,11 +61,12 @@ density_r /= area_r
 
 fig = plt.figure(figsize=(5, 5), tight_layout=True)
 
-plt.plot(w_list, density_r, label='Simulation',
+if plot_dos:
+    plt.plot(w_list, density_r, label='Simulation',
          color='b', linewidth=1, alpha=1.0)
 
 if plot_histogram:
-    plt.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5)
+    plt.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5, label='Simulation')
 
 # Analytic solution
 
@@ -83,7 +87,7 @@ plt.plot(w_list, solution, label='Theory',
 plt.xlabel(r'$x$')
 plt.ylabel(r'$P(x)$')
 
-plt.xlim(min_x - padding, max_x + padding)
+plt.xlim(min_x - padding_l, max_x + padding_r)
 plt.ylim(bottom=0)
 
 plt.xticks(x_ticks)
@@ -92,5 +96,5 @@ plt.axvline(x=xmax, color='k', linestyle='dashed',
             label='Wall', linewidth=1.0, alpha=0.5)
 
 # ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
-plt.legend(loc='upper left', fancybox=True, framealpha=0.3)
-plt.savefig('reflective_dos.png')
+plt.legend(loc='upper left', fancybox=True, framealpha=0.0)
+plt.savefig('dos_reflective.png')
