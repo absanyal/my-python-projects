@@ -12,11 +12,11 @@ mpl.rcParams['legend.fontsize'] = 16
 
 # Define the number of trials and iterations
 num_trials = 50000
-num_iters = 2000
+num_iters = 3000
 
 # Define the wall
 xmin = -30
-xmax = 30
+xmax = 10
 
 ymin = -30
 ymax = 30
@@ -71,6 +71,6 @@ with open('reflective_walker.txt', 'a') as file:
 
         bin_x = np.arange(min_x, max_x + 1, 0.5)
 
-        if trial % 100 == 0 and trial > 0:
+        if trial % 1000 == 0 and trial > 0:
 
             print('Trial:', trial)
