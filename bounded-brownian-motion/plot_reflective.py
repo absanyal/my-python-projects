@@ -10,6 +10,8 @@ mpl.rcParams['xtick.labelsize'] = 20
 mpl.rcParams['ytick.labelsize'] = 20
 mpl.rcParams['legend.fontsize'] = 16
 
+plot_histogram = 0
+
 trials, final_x_r = np.loadtxt(
     'reflective_walker.txt', unpack=True)
 
@@ -53,7 +55,10 @@ fig = plt.figure(figsize=(8.2, 6), constrained_layout=True)
 ax = fig.add_subplot(111, box_aspect=1)
 
 ax.plot(w_list, density_r, label='Particle',
-        color='b', linewidth=1, alpha=0.7)
+        color='b', linewidth=1, alpha=1.0)
+
+if plot_histogram:
+    ax.hist(final_x_r, bins=bin_x, density=True, color='b', alpha=0.5)
 
 # Analytic solution
 
@@ -69,7 +74,7 @@ solution_nf = np.trapz(solution, w_list)
 solution /= solution_nf
 
 ax.plot(w_list, solution, label='Exact',
-         color='g', linewidth=1, alpha=0.7)
+         color='r', linewidth=1, alpha=1.0)
 
 ax.set_xlabel(r'$x$')
 ax.set_ylabel(r'$P(x)$')
