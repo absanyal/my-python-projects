@@ -92,5 +92,5 @@ plt.axvline(x=xmax, color='k', linestyle='dashed',
             label='Wall', linewidth=1.0, alpha=0.5)
 
 # ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
-plt.legend()
+plt.legend(loc='upper left', fancybox=True, framealpha=0.3)
 plt.savefig('reflective_dos.png')
