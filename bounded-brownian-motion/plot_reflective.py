@@ -25,7 +25,6 @@ bin_x = np.arange(min_x, max_x + 1, 0.5)
 Dx, Dy, Dz, x0, y0, z0, dt, distance_from_wall, num_iters = np.loadtxt(
     'reflective_info.txt', unpack=True)
 
-D = Dx
 t_final = num_iters * dt
 
 
@@ -62,7 +61,7 @@ if plot_histogram:
 
 # Analytic solution
 
-solution_un = reflective_soln(w_list - x_wall, distance_from_wall, D, t_final)
+solution_un = reflective_soln(w_list - x_wall, distance_from_wall, Dx, t_final)
 solution = np.zeros_like(solution_un)
 for wi, w in enumerate(w_list):
     if w < x_wall:
