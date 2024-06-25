@@ -38,7 +38,7 @@ w_list = np.linspace(min_x - padding_l, max_x + padding_r, 1000)
 x_wall = max(final_x_r)
 
 x_ticks1 = np.arange(0, max_x + 1, 10)
-x_ticks2 = np.arange(0, min_x + 1, -10)
+x_ticks2 = np.arange(0, min_x - 1, -10)
 
 x_ticks = np.concatenate((x_ticks2, x_ticks1))
 
@@ -83,7 +83,7 @@ solution_nf = np.trapz(solution, w_list)
 solution /= solution_nf
 
 plt.plot(w_list, solution, label='Theory',
-         color='r', linewidth=1, alpha=1.0)
+         color='r', linewidth=2, alpha=1.0)
 
 plt.xlabel(r'$x$')
 plt.ylabel(r'$P(x)$')
@@ -92,9 +92,10 @@ plt.xlim(min_x - padding_l, max_x + padding_r)
 plt.ylim(bottom=0)
 
 plt.xticks(x_ticks)
+plt.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
 plt.axvline(x=xmax, color='k', linestyle='dashed',
-            label='Wall', linewidth=1.0, alpha=0.5)
+            label='Wall', linewidth=2.0, alpha=0.5)
 
 # ax.legend(bbox_to_anchor=(1.0, 1), loc='upper left')
 plt.legend(loc='upper left', fancybox=True, framealpha=0.0)
