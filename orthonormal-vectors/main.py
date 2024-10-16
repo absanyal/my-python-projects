@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import rcparams
 from numpy import cross, dot, sin, cos, pi, exp
 from numpy.linalg import norm
 import matplotlib.animation
