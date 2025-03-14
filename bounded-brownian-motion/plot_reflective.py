@@ -5,10 +5,7 @@ from modules.diffusion_solutions import reflective_soln, adsorptive_soln
 
 from modules.dosmaker import make_dos as mdos
 
-mpl.rcParams['axes.labelsize'] = 20
-mpl.rcParams['xtick.labelsize'] = 20
-mpl.rcParams['ytick.labelsize'] = 20
-mpl.rcParams['legend.fontsize'] = 16
+import rcparams
 
 plot_histogram = 1
 plot_dos = 0
