@@ -50,7 +50,7 @@ model = keras.Sequential(
         layers.Dense(1, activation='linear')
     ])
 
-model.compile(loss=keras.losses.mean_squared_error,
+model.compile(loss=keras.losses.MeanSquaredError(),
               optimizer='adam', metrics=['accuracy'])
 
 batch_size = 32
